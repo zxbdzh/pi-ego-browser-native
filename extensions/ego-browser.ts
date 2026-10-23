@@ -22,6 +22,9 @@ export default function egoBrowser(pi: ExtensionAPI) {
       "Respect user control and native Ego errors. After handOff(), stop until the user confirms. Never automatically claim a user-owned space. Finish successful tasks with task.finish({keep: []}); do not finish after errors or handoff.",
       "A timeout/abort stops the local CLI, but does not prove that dispatched browser actions stopped. Inspect the SAME space before further changes; never replay an uncertain mutation.",
       "A screenshot is automatically attached to Pi when page.screenshot() resolves; coordinates are CSS pixels and Pi may resize the image. The script has Node capabilities: this tool is not a sandbox.",
+      // 每次调用都要新起一个 Ego 进程并重新连接（实测约 78 ms CPU / 140 ms 墙钟），导航另加约 300 ms；
+      // 反复小步调用是最主要的卡顿来源，因此显式要求合并动作，而不是按文本长度限制脚本。
+      "Each call starts a fresh Ego process and reconnects (measurably ~78 ms CPU and ~140 ms before the script even runs; navigation adds ~300 ms). Cost scales with the number of calls, not with script length: batch every action that does not depend on a fresh observation into one call, and end that call with the single observation you need next.",
       tasks.length ? `TaskSpace records from the active Pi branch (historical hints only; verify live ownership before acting): ${JSON.stringify(tasks)}` : "No TaskSpace recorded on the active Pi branch.",
     ].join("\n\n");
   });

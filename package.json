@@ -1,0 +1,28 @@
+{
+  "name": "pi-ego-browser-native",
+  "version": "0.1.0",
+  "description": "Run Ego Browser scripts as a native Pi tool with inline screenshots and persistent TaskSpaces.",
+  "type": "module",
+  "license": "MIT",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zxbdzh/pi-ego-browser-native.git"
+  },
+  "keywords": ["pi-package", "pi-extension", "ego-browser", "browser-automation"],
+  "engines": { "node": ">=22.19.0" },
+  "files": ["extensions", "lib", "README.md", "LICENSE"],
+  "pi": { "extensions": ["./extensions/ego-browser.ts"] },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=1.3.0",
+    "@earendil-works/pi-ai": "*"
+  },
+  "peerDependenciesMeta": {
+    "@earendil-works/pi-coding-agent": { "optional": true },
+    "@earendil-works/pi-ai": { "optional": true }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:live": "node scripts/live-smoke.mjs"
+  }
+}
